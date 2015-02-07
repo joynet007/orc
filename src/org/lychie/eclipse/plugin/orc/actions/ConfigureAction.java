@@ -6,6 +6,7 @@ import org.lychie.eclipse.plugin.orc.res.model.Configuration;
 import org.lychie.eclipse.plugin.orc.ui.Guidance;
 import org.lychie.eclipse.plugin.orc.ui.Guidance.OnOKClick;
 import org.lychie.eclipse.plugin.orc.util.Configurations;
+import org.lychie.jutil.StringUtil;
 
 /**
  * ConfigureAction
@@ -17,7 +18,9 @@ public class ConfigureAction extends ActionSuper {
 	@Override
 	public void run(IAction action) {
 		try {
-			showGuidance();
+			if(StringUtil.isNotEmpty(pathname)){
+				showGuidance();
+			}
 		} catch (Throwable e) {
 			openerror(e.getMessage());
 		}

@@ -1,6 +1,7 @@
 package org.lychie.eclipse.plugin.orc.ui;
 
 import java.io.File;
+
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -19,6 +20,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -56,6 +58,8 @@ public class Guidance extends TitleAreaDialog implements ModifyListener {
 		Composite area = (Composite) super.createDialogArea(parent);
 		Composite container = new Composite(area, SWT.NONE);
 		container.setLayoutData(new GridData(550, 305));
+		
+		menu = new Menu(getShell());
 
 		final TabFolder folder = new TabFolder(container, SWT.NONE);
 		folder.setBounds(15, 10, 520, 280);
@@ -87,6 +91,7 @@ public class Guidance extends TitleAreaDialog implements ModifyListener {
 		usernameText.setFont(DEFAULT_FONT);
 		usernameText.setBounds(128, 35, 348, 23);
 		usernameText.addModifyListener(this);
+		usernameText.setMenu(menu);
 
 		Label passwordLabel = new Label(dbComposite, SWT.NONE);
 		passwordLabel.setFont(DEFAULT_FONT);
@@ -96,6 +101,7 @@ public class Guidance extends TitleAreaDialog implements ModifyListener {
 		passwordText.setFont(DEFAULT_FONT);
 		passwordText.setBounds(128, 75, 348, 23);
 		passwordText.addModifyListener(this);
+		passwordText.setMenu(menu);
 
 		Label connectionLabel = new Label(dbComposite, SWT.NONE);
 		connectionLabel.setFont(DEFAULT_FONT);
@@ -105,6 +111,7 @@ public class Guidance extends TitleAreaDialog implements ModifyListener {
 		connectionText.setFont(DEFAULT_FONT);
 		connectionText.setBounds(128, 115, 348, 23);
 		connectionText.addModifyListener(this);
+		connectionText.setMenu(menu);
 
 		dbTabItem.setControl(dbComposite);
 
@@ -122,6 +129,7 @@ public class Guidance extends TitleAreaDialog implements ModifyListener {
 		packagenameText.setFont(DEFAULT_FONT);
 		packagenameText.setBounds(158, 35, 318, 23);
 		packagenameText.addModifyListener(this);
+		packagenameText.setMenu(menu);
 
 		Label sourceFolderLabel = new Label(extraComposite, SWT.NONE);
 		sourceFolderLabel.setFont(DEFAULT_FONT);
@@ -132,8 +140,9 @@ public class Guidance extends TitleAreaDialog implements ModifyListener {
 		sourceFolderText.setBounds(158, 75, 318, 23);
 		sourceFolderText.setEditable(false);
 		sourceFolderText.addModifyListener(this);
-		sourceFolderText.addMouseListener(new MouseUpListener(
-				getShell(), sourceFolderText, "Select the source folder"));
+		sourceFolderText.addMouseListener(new MouseUpListener(getShell(),
+				"Select the source folder"));
+		sourceFolderText.setMenu(menu);
 
 		Label excludeTablesLabel = new Label(extraComposite, SWT.NONE);
 		excludeTablesLabel.setFont(DEFAULT_FONT);
@@ -143,6 +152,7 @@ public class Guidance extends TitleAreaDialog implements ModifyListener {
 		excludeTablesText.setToolTipText("table_name1, table_name2");
 		excludeTablesText.setFont(DEFAULT_FONT);
 		excludeTablesText.setBounds(158, 115, 318, 23);
+		excludeTablesText.setMenu(menu);
 
 		Label excludeColumnsLabel = new Label(extraComposite, SWT.NONE);
 		excludeColumnsLabel.setFont(DEFAULT_FONT);
@@ -152,6 +162,7 @@ public class Guidance extends TitleAreaDialog implements ModifyListener {
 		excludeColumnsText.setToolTipText("*.column_name1, table.column_name2");
 		excludeColumnsText.setFont(DEFAULT_FONT);
 		excludeColumnsText.setBounds(158, 155, 318, 23);
+		excludeColumnsText.setMenu(menu);
 
 		Label templateFolderLabel = new Label(extraComposite, SWT.NONE);
 		templateFolderLabel.setFont(DEFAULT_FONT);
@@ -161,9 +172,10 @@ public class Guidance extends TitleAreaDialog implements ModifyListener {
 		templateFolderText.setFont(DEFAULT_FONT);
 		templateFolderText.setBounds(158, 195, 318, 23);
 		templateFolderText.setEditable(false);
-		templateFolderText.addMouseListener(new MouseUpListener(
-				getShell(), templateFolderText,
+		templateFolderText.addMouseListener(new MouseUpListener(getShell(),
 				"Select the model template folder"));
+		templateFolderText.setMenu(menu);
+		templateFolderText.setToolTipText("Click the right mouse button to clear");
 
 		extraTabItem.setControl(extraComposite);
 
@@ -254,27 +266,33 @@ public class Guidance extends TitleAreaDialog implements ModifyListener {
 	
 	private static class MouseUpListener implements MouseListener {
 		
-		private Text text;
 		private Shell shell;
 		private String title;
+		private static final int LEFT_MOUSE_BUTTON = 1;
+		private static final int RIGHT_MOUSE_BUTTON = 3;
 		
-		private MouseUpListener(Shell shell, Text text, String title) {
-			this.text = text;
+		private MouseUpListener(Shell shell, String title) {
 			this.shell = shell;
 			this.title = title;
 		}
 
 		@Override
 		public void mouseUp(MouseEvent event) {
-			DirectoryDialog dialog = new DirectoryDialog(shell);
-			dialog.setText(title);
-			String pathname = Project.getPath();
-			dialog.setFilterPath(pathname);
-			String selectedPath = dialog.open();
-			if (selectedPath != null && selectedPath.contains(pathname)) {
-				selectedPath = StringUtil.afterLastString(selectedPath,
-						pathname);
-				text.setText(selectedPath);
+			Text text = (Text) event.getSource();
+			if (event.button == LEFT_MOUSE_BUTTON) {
+				DirectoryDialog dialog = new DirectoryDialog(shell);
+				dialog.setText(title);
+				String pathname = Project.getPath();
+				dialog.setFilterPath(pathname);
+				String selectedPath = dialog.open();
+				if (selectedPath != null && selectedPath.contains(pathname)) {
+					selectedPath = StringUtil.afterLastString(selectedPath,
+							pathname);
+					text.setText(selectedPath);
+				}
+			}
+			if (event.button == RIGHT_MOUSE_BUTTON) {
+				text.setText("");
 			}
 		}
 
@@ -302,6 +320,7 @@ public class Guidance extends TitleAreaDialog implements ModifyListener {
 	private static final Image IMAGE_PUZZLE = new Image(Display.getDefault(),
 			Guidance.class.getResourceAsStream("puzzle.png"));
 	
+	private Menu menu;
 	private Text usernameText;
 	private Text passwordText;
 	private Text connectionText;

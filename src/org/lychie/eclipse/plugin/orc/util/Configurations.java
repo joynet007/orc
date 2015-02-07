@@ -28,7 +28,7 @@ public class Configurations implements IConfiguration {
 
 	public  static final String JAVA_STYLE_SOURCE_FOLDER = "src";
 	public  static final String MAVEN_STYLE_SOURCE_FOLDER = "src/main/java";
-	public  static final String CONFIG_FILE_NAME = ".settings" + File.separator + "org.eclipse.orc.conf";
+	public  static final String CONFIG_FILE_NAME = ".settings" + File.separator + "org.eclipse.orc.core.prefs";
 	private static final String ALL = "*";
 	private static final String EMPTY = "";
 	private static final String POSTIL = "#";

@@ -1,0 +1,14 @@
+﻿# ignore class files
+*.class
+
+# ignore classes directory
+classes/
+
+# ignore bin directory
+bin/
+
+# ignore eclipse config files
+.project
+.classpath
+.settings/
+.svn/

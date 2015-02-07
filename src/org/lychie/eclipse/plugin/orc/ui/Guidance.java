@@ -288,6 +288,7 @@ public class Guidance extends TitleAreaDialog implements ModifyListener {
 				if (selectedPath != null && selectedPath.contains(pathname)) {
 					selectedPath = StringUtil.afterLastString(selectedPath,
 							pathname);
+					selectedPath = selectedPath.replace("\\", "/");
 					text.setText(selectedPath);
 				}
 			}

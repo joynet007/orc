@@ -1,0 +1,7 @@
+package $packagename;
+
+import ${packagename}.ModelMaster.${table}Base;
+
+public class ${table} extends ${table}Base {
+
+}

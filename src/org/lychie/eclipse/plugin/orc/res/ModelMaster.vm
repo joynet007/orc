@@ -1,0 +1,25 @@
+package $packagename;
+
+public final class ModelMaster {
+
+#foreach($table in $tables)
+	public static class ${table.name}Base extends ModelBase {
+		
+#foreach($column in $table.columns)
+		private $column.type $column.name;
+#end
+		
+#foreach($column in $table.columns)
+		public $column.type $util.get($column.type, $column.name)() {
+			return $column.name;
+		}
+
+		public void $util.set($column.name)($column.type $column.name) {
+			this.$column.name = $column.name;
+		}
+		
+#end		
+	}
+	
+#end
+}

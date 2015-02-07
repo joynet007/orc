@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Object Relational Creator
+Bundle-SymbolicName: orc; singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: org.lychie.eclipse.plugin.orc.Activator
+Bundle-Vendor: Lychie Fan ( lychie@yeah.net )
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources;bundle-version="3.6.1"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .,
+ lib/commons-collections-3.2.1.jar,
+ lib/commons-lang-2.4.jar,
+ lib/mysql-connector-java-5.1.17.jar,
+ lib/velocity-1.7.jar,
+ lib/sqljdbc4.jar,
+ lib/jutil-1.1.6.jar,
+ lib/beanutil-1.2.0.jar

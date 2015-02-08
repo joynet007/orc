@@ -27,8 +27,7 @@ public class InnerTemplateEngine extends TemplateEngine {
 			engine.getTemplate(pathname).merge(buildContext(arg), writer);
 			return writer.toString();
 		} catch (Throwable e) {
-			throw new ORCPCastException("can not parse the inner template : "
-					+ pathname + filename);
+			throw new ORCPCastException("can not parse the inner template");
 		} finally {
 			IOUtil.close(writer);
 		}

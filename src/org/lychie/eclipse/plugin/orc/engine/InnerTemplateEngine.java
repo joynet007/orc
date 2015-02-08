@@ -20,6 +20,9 @@ public class InnerTemplateEngine extends TemplateEngine {
 
 	@Override
 	public String parseTemplate(String pathname, String filename, Object arg) {
+		Thread thread = Thread.currentThread();
+		ClassLoader loader = thread.getContextClassLoader();
+		thread.setContextClassLoader(this.getClass().getClassLoader());
 		StringWriter writer = new StringWriter();
 		try {
 			pathname += filename;
@@ -29,6 +32,7 @@ public class InnerTemplateEngine extends TemplateEngine {
 		} catch (Throwable e) {
 			throw new ORCPCastException("can not parse the inner template");
 		} finally {
+			thread.setContextClassLoader(loader);
 			IOUtil.close(writer);
 		}
 	}

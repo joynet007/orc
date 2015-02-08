@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Object Relational Creator
 Bundle-SymbolicName: orc; singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.1
 Bundle-Activator: org.lychie.eclipse.plugin.orc.Activator
 Bundle-Vendor: Lychie Fan ( lychie@yeah.net )
 Require-Bundle: org.eclipse.ui,
